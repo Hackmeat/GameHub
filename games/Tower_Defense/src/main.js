@@ -4,7 +4,8 @@ let ctx = canvas.getContext("2d");
 const width = canvas.width;
 const height = canvas.height;
 
-let menu = new Menu(width, height);
+let eventHandler = new EventHandler();
+let menu = new Menu(width, height, eventHandler);
 
 function update(delta) {
     menu.update(delta);
