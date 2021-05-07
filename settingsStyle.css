@@ -1,0 +1,164 @@
+* {
+    font-family: 'Comfortaa', cursive;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+img {
+    display: none;
+}
+
+html,
+body {
+    background-color: black;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.flexBoxColumnSpace {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap : nowrap;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.flexBoxColumnSpace *{
+    text-align: center;
+}
+
+.flexBoxColumn {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap : nowrap;
+    flex-direction: column;
+}
+
+.flexBoxColumn *{
+    text-align: center;
+}
+
+.flexBoxRow {    
+    display: flex;
+    justify-content: space-around;
+    flex-wrap : nowrap;
+}
+
+.settingButton {
+    background-color: black;
+    border: none;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 13px;
+    border: 1px solid;
+    border-color: white;
+    
+}
+
+.settingButton:hover {
+    transition: .5s ease;
+    cursor: pointer;
+    border-color: orange;
+    color: orange;
+}
+
+.dropDown{
+    display: inline-block;
+    position: relative;
+}
+
+.dropDownButton{
+    border-radius: 13px 13px 0 0;
+    font-size: 25px;
+    padding: 8px;
+    background-color: black;
+    border-color: white;
+    border: 1px solid;
+    cursor: pointer;
+    width: 220px;
+}
+
+.dropDownButton:hover p{
+    color: orange;
+    border-color: white;
+}
+
+.dropElements{
+    display: none;
+    position: absolute;
+    width: 100%;
+    
+}
+
+.dropElements a {
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    padding: 5px;
+    border-left: 1px solid;
+    border-right: 1px solid;
+}
+
+.dropElements a:last-child {
+    border-bottom: 1px solid;
+    border-radius: 0 0 13px 13px;
+}
+
+.dropElements a:hover {
+    color: orange;
+    border-color: white;
+    cursor: pointer;
+}
+
+.dropDown:hover .dropElements{
+    display: block;
+}
+
+.notes {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.usernameLabel {
+    font-size: 25px;
+    border-radius: 13px 13px 0 0;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 0.5px solid;
+    padding: 8px;
+}
+
+.usernameLabel:hover {
+    color: orange;
+    border-color: white;
+}
+
+.usernameInput {
+    background-color: black;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-top: 0.5px solid;
+    border-radius: 0 0 13px 13px;
+    font-size: 25px;
+    padding: 8px;
+}
+
+.usernameInput:hover {
+    color: orange;
+    border-color: white;
+}
+
+.usernameInput:focus-visible {
+    outline: none;
+    color: orange;
+    border-color: white;
+}

@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Ball Paddle Pong</title>
+
+    <style>
+      #gameScreen {
+        background-color: white;
+      }
+
+      body {
+        background-color: black;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+      }
+
+      img {
+        display: none;
+      }
+
+      canvas {
+        position: absolute;
+        width: 800px;
+        height: 600px;
+        left: 50%;
+        top: 50%;
+        margin-left: -400px;
+        margin-top: -300px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameScreen" width="800" height="600"></canvas>
+
+    <img id="ball" src="img/Ball.png" />
+    <img id="left_arrow" src="img/left_arrow.png" />
+    <img id="right_arrow" src="img/right_arrow.png" />
+
+    <script src="src/bricks.js"></script>
+    <script src="src/ball.js"></script>
+    <script src="src/input.js"></script>
+    <script src="src/paddle.js"></script>
+    <script src="src/main.js"></script>
+  </body>
+</html>

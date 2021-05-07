@@ -1,0 +1,92 @@
+* {
+    font-family: 'Comfortaa', cursive;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+img {
+    display: none;
+}
+
+html,
+body {
+    background-color: black;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.flexBoxColumn {
+    display: flex;
+    flex-wrap : nowrap;
+    flex-direction: column;    
+}
+
+.flexBoxColumn *{
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.flexBoxRow {    
+    display: flex;
+    justify-content: space-around;
+    flex-wrap : nowrap;
+}
+
+.flexBoxRow:first-child{
+    align-items: center;
+}
+
+.flexBoxRow:first-child > * {
+    flex: 1 1 0px;
+}
+
+.gameButton {
+    transition: 1.5s ease;
+    width: 256px;
+    height: 144px;
+    border-radius: 13px;
+    border: 1px solid;
+    border-color: white;
+    background-size: 100%;   
+    display: block;
+    background-position: center center;
+    
+}
+
+.gameButton:hover {   
+    border-color: orange;
+    background-size: 140%;      
+}
+
+.settingButton {
+    background-color: black;
+    border: none;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 13px;
+    border: 1px solid;
+    border-color: white;
+    margin-top: 10%;
+}
+
+.settingButton:hover {
+    transition: .5s ease;
+    cursor: pointer;
+    border-color: orange;
+    color: orange;
+}
+
+.notes {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+
