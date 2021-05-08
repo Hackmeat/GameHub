@@ -28,7 +28,7 @@ class Menu {
         //---------------------------------------------------------  
         //All Buttons, Start, exit, etc...
 
-        this.continueString = "Continue";
+        this.continueString = "Start";
         this.mapString = "Map Selection";
         this.exitString = "Exit";
 
@@ -60,7 +60,13 @@ class Menu {
         this.title = "Tower Defense"
         this.developer = "by Hackmeat"
 
-        console.log("--Construct Complete");
+        //---------------------------------------------------------
+        //Giving status to other classes
+        this.start = false;
+        this.selection = false;
+        this.exit = false;
+
+        console.log("--Menu Construct Complete");
     }
 
     draw(ctx, interpolationPercentage) {
@@ -73,7 +79,9 @@ class Menu {
         this.xMouse = this.eventHandler.xMouse;
         this.yMouse = this.eventHandler.yMouse;
 
-        this.updateMenuButtons(this.amountButton, this.xButton, this.yButton, this.xSizeButton, this.ySizeButton, this.spaceButton)
+        this.updateMenuButtons(this.amountButton, this.xButton, this.yButton, this.xSizeButton, this.ySizeButton, this.spaceButton);
+
+        this.updateClickedButton(this.currentHover, this.hover, this.eventHandler.leftMousePressed)
     }
 
     //---------------------------------------------------------  
@@ -112,26 +120,51 @@ class Menu {
         let startX = x - (xSize / 2);
         this.hover = false;
         for (let i = amount; i > 0; i--) {
-
             if (startX < this.xMouse && startX + xSize > this.xMouse && startY < this.yMouse && startY + ySize > this.yMouse) {
                 this.hover = true;
                 this.currentHover = i;
-                console.log(this.currentHover)
             }
             startY = startY + ySize + ySpace;
         }
     }
+
     //---------------------------------------------------------
     //Drawing title
 
     drawTitle(ctx, x, y, title, dev, size) {
         //Calc explanation: xPos - string.length * fontsize * how much bigger it should be / adaption of font to px
         ctx.font = size * 1.5 + "px " + this.font;
+        ctx.fillStyle = this.colorDefault;
         let titleX = x - ((title.length * size * 1.5 / this.multi) / 2);
         ctx.fillText(title, titleX, y);
         ctx.font = this.fontSize * 0.7 + "px " + this.font;
         y = y + (size * 1.5);
         x = x - ((dev.length * size * 0.7 / this.multi) / 2);
         ctx.fillText(dev, x, y); 
+    }
+
+    //---------------------------------------------------------
+    //Executing the buttons
+
+    updateClickedButton(id, hover, mousePressed){
+        if(hover && mousePressed && !this.exit && !this.selection && !this.start){
+            switch(id){
+                //End
+                case 1:
+                    this.exit = true;
+                    console.log("--Exiting game");
+                    break;   
+                //Selection
+                case 2:
+                    this.selection = true;
+                    console.log("--Go to map selection");
+                    break;
+                //Start
+                case 3:
+                    this.start = true;
+                    console.log("--Starting game");
+                    break;
+            }
+        }
     }
 }
