@@ -24,16 +24,23 @@ class Tower{
             }
         */
         this.constructComplete = false;
+
+        //--------------------------------------------------------
+        //Tower settings
+        let towerSize = 80;
+        this.towerSizeX = towerSize * xMult;
+        this.towerSizeY = towerSize * yMult;
     }
 
     draw(ctx, interpolationPercentage){
-
+        ctx.fillStyle ="#0FF8FF";
+        ctx.fillRect(this.towerX - (this.towerSizeX / 4), this.towerY - (this.towerSizeY / 4), this.towerSizeX, this.towerSizeY);
     }
 
-    update(delta){
+    update(){
 
         if (!this.constructComplete) {
-            console.log("--Tower x: " + this.towerX + + ", y: " + this.towerY + " Construct Complete");
+            console.log("--Tower x: " + this.towerX + ", y: " + this.towerY + " Construct Complete");
             this.constructComplete = true;
         }
     }
