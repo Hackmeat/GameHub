@@ -1,25 +1,195 @@
-class Level{
+class Level {
 
-    constructor(width, height, eventHandler, level){
-        this.width = width;
-        this.height = height;
+    constructor(width, height, eventHandler, level) {
+        this.screenWidth = width;
+        this.screenHeight = height;
         this.eventHandler = eventHandler;
         this.level = level;
+
+        //--------------------------------------------------------- 
+        //For calculating the right positions for every screen size
+        //and taking the base from HD (1280x720)
+
+        let xMult = this.screenWidth / 1280;
+        let yMult = this.screenHeight / 720;
+
+        //---------------------------------------------------------  
+        //Make console.log without crashing browser windows
+        this.logMade = false;
+        /** if(!this.logMade){
+                console.log()
+                this.logMade = true;
+            }
+        */
+
+        //---------------------------------------------------------------
+        //Map based on 2D Array 32x18
+        this.levelOne = [
+
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //00
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //01
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //02
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //03
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //04
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //05
+            [0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //06
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //07
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //08
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //09
+            [0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //11
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //12
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //13
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //14
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //15
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //16
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //17
+        ];
+        this.elementGrass = 0;
+        this.elementWalkWay = 1;
+        this.elementBuildingSpot = 2;
+
+
+        let size = 40;
+        this.levelSizeX = size * xMult;
+        this.levelSizeY = size * yMult;
+        this.levelGrass = "#68FF33";
+        this.levelWalkWay = "#A27600";
+        this.levelBuildingSpot = "#FFCC2B";
+        this.levelBuildingSpotHover = "#FFD655";
+
+        //---------------------------------------------------------
+        //Building a tower from scretch
+
+        this.buildingHover = false;
+        this.buildingHoverX = -1;
+        this.buildingHoverY = -1;
+
+        let margin = 14;
+        this.buildingTowerMarginX = margin * xMult;
+        this.buildingTowerMarginY = margin * yMult;
+
+        this.buildingSelectionCancelColor = "#C60000"
+        this.buildingSelectionColor = "#7A4FFF";
+        this.buildingSelectionSizeX = size * xMult;
+        this.buildingSelectionSizeY = size * yMult;
+
+        this.buildingTypAmount = 4;
+        this.openBuildingMenu = false;
+        this.towerArray = [];
     }
 
-    draw(ctx, interpolationPercentage){
-        ctx.fillStyle = "#ff8800";
-        ctx.fillRect(100, 100, 100, 100)
+    draw(ctx, interpolationPercentage) {
+        this.drawMap(ctx, this.levelOne);
     }
 
-    update(delta){
+    update(delta) {
         this.xMouse = this.eventHandler.xMouse;
         this.yMouse = this.eventHandler.yMouse;
+        this.leftMousePressed = this.eventHandler.leftMousePressed;
         if (!this.constructComplete) {
-            console.log("--Level " + this.level+ " Construct Complete");
+            console.log("--Level " + this.level + " Construct Complete");
             this.constructComplete = true;
         }
+        this.updateTowerBulding(delta, this.levelOne, this.levelSizeX, this.levelSizeY, this.xMouse, this.yMouse)
+    }
+
+    //---------------------------------------------------------------------
+    //Drawing the current map
+
+    drawMap(ctx, array) {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array[0].length; j++) {
+                this.drawMapElement(ctx, j, i, this.levelSizeX, this.levelSizeY, array[i][j]);
+            }
+        }
+
+        if (this.openBuildingMenu) {
+            this.drawBuildingMenu(ctx, this.buildingHoverX, this.buildingHoverY, this.buildingTowerMarginX, this.buildingTowerMarginY,
+                this.buildingTypAmount, this.buildingSelectionColor, this.buildingSelectionSizeX, this.buildingSelectionSizeY);
+        }
+    }
+
+    drawMapElement(ctx, x, y, xSize, ySize, item) {
+        switch (item) {
+            case this.elementGrass:
+                ctx.fillStyle = this.levelGrass;
+                break;
+            case this.elementWalkWay:
+                ctx.fillStyle = this.levelWalkWay;
+                break;
+            case this.elementBuildingSpot:
+                if (this.buildingHover && this.buildingHoverX == x && this.buildingHoverY == y) {
+                    ctx.fillStyle = this.levelBuildingSpotHover;
+                } else {
+                    ctx.fillStyle = this.levelBuildingSpot
+                }
+                break;
+        }
+
+        ctx.fillRect(x * xSize, y * ySize, xSize, ySize)
+    }
+
+    //---------------------------------------------------------
+    //Updating the state of building a tower
+
+    updateTowerBulding(delta, array, xSize, ySize, xMouse, yMouse) {
+        this.buildingHover = false;
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array[0].length; j++) {
+                if (array[i][j] == this.elementBuildingSpot) {
+                    if (xMouse > j * xSize && xMouse < j * xSize + xSize && yMouse > i * ySize && yMouse < i * ySize + ySize && !this.openBuildingMenu) {
+                        this.buildingHover = true;
+                        this.buildingHoverX = j;
+                        this.buildingHoverY = i;
+                        if (this.leftMousePressed) {
+                            this.openBuildingMenu = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //---------------------------------------------------------
+    //Drawing the building menu, selecting from *amount* tower
+
+    drawBuildingMenu(ctx, x, y, marginX, marginY, amount, color, xSize, ySize) {
+        ctx.fillStyle = color;
+        if (amount - 3 >= 2) {
+            //If more then 4 tower types
+        } else if (amount - 2 <= 2) {
+            //if 4 or less
+            ctx.fillRect(x * xSize - (marginX / 2) - (xSize / 2), y * ySize - marginY - ySize, xSize, ySize); // top left selector
+            ctx.fillRect(x * xSize + (marginX / 2) + (xSize / 2), y * ySize - marginY - ySize, xSize, ySize); // rop right
+            ctx.fillRect(x * xSize - marginX - xSize, y * ySize, xSize, ySize); //middle left
+            ctx.fillRect(x * xSize + marginX + xSize, y * ySize, xSize, ySize); //middle right 
+        }
+        ctx.fillStyle = this.buildingSelectionCancelColor;
+        ctx.fillRect(x * xSize, y * ySize + ySize + marginY, xSize, ySize); // red cancel build button
 
     }
 
+    updateBuildingMenu(delta, x, y, marginX, marginY, amount) {
+        let selectedID = 0
+        if (false) { //if something is selected push new tower
+            this.towerArray.push(new Tower(this.screenWidth, this.screenHeight, selectedID, x, y, 1))
+        }
+        this.openBuildingMenu = false;
+    }
+
+    //---------------------------------------------------------
+    //Drawing and updating all tower elements
+
+    drawTower(ctx, interpolationPercentage, array) {
+        for (let i = 0; i < array.length; i++) {
+            this.towerArray[i].draw(ctx, interpolationPercentage);
+        }
+    }
+
+    updateTower(delta, array) {
+        for (let i = 0; i < array.length; i++) {
+            this.towerArray[i].update(delta);
+        }
+    }
 }
