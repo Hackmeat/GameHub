@@ -88,7 +88,7 @@ class Level {
 
     draw(ctx, interpolationPercentage) {
         this.drawMap(ctx, interpolationPercentage, this.levelOne);
-        if(this.towerArray.length != 0){
+        if (this.towerArray.length != 0) {
             this.drawTower(ctx, interpolationPercentage, this.towerArray);
         }
     }
@@ -106,7 +106,7 @@ class Level {
             this.updateBuildingMenu(delta, this.buildingHoverX, this.buildingHoverY, this.buildingTowerMarginX, this.buildingTowerMarginY,
                 this.buildingTypAmount, this.buildingSelectionSizeX, this.buildingSelectionSizeY, this.xMouse, this.yMouse);
         }
-        if(this.towerArray.length != 0){
+        if (this.towerArray.length != 0) {
             this.updateTower(delta, this.towerArray);
         }
     }
@@ -176,7 +176,7 @@ class Level {
     //Drawing the building menu, selecting from *amount* tower
 
     drawBuildingMenu(ctx, x, y, marginX, marginY, amount, color, xSize, ySize) {
-        
+
         ctx.fillStyle = color;
         if (amount - 3 >= 2) {
             //If more then 4 tower types
@@ -207,22 +207,37 @@ class Level {
             this.previewTowerX = x;
             this.previewTowerY = y;
         }
-        /*
-        if(){
 
-        } 
-
-        if(){
-
-        } 
-
-        if(){
-
+        if (xMouse > x * xSize + (marginX / 2) + (xSize / 2) && xMouse < x * xSize + (marginX / 2) + (xSize / 2) + xSize &&
+            yMouse > y * ySize - marginY - ySize && yMouse < y * ySize - marginY) {
+            this.previewTower = true;
+            this.previewTowerID = 2;
+            this.previewTowerX = x;
+            this.previewTowerY = y;
         }
 
-        if(){
+        if (xMouse > x * xSize - marginX - xSize && xMouse < x * xSize - marginX && yMouse > y * ySize && yMouse < y * ySize + ySize) {
+            this.previewTower = true;
+            this.previewTowerID = 3;
+            this.previewTowerX = x;
+            this.previewTowerY = y;
+        }
 
-        }*/
+        if (xMouse > x * xSize + marginX + xSize && xMouse < x * xSize + marginX + (xSize * 2) && yMouse > y * ySize && yMouse < y * ySize + ySize) {
+            this.previewTower = true;
+            this.previewTowerID = 4;
+            this.previewTowerX = x;
+            this.previewTowerY = y;
+        }
+
+        if (xMouse > x * xSize && xMouse < x * xSize + xSize && yMouse > y * ySize + ySize + marginY && yMouse < y * ySize + (ySize * 2) + marginY && this.leftMousePressed) {
+            this.previewTower = false;
+            this.previewTowerID = 0;
+            this.previewTowerX = 0;
+            this.previewTowerY = 0;
+            this.openBuildingMenu = false;
+            console.log("--Tower building cancled");
+        }
 
 
         if (this.previewTower && this.leftMousePressed) { //if something is selected push new tower
@@ -230,7 +245,7 @@ class Level {
             this.towerArray.push(new Tower(this.screenWidth, this.screenHeight, selectedID, x * xSize, y * ySize, 1))
             this.openBuildingMenu = false;
         }
-       
+
     }
 
     drawTowerPreview(ctx, interpolationPercentage, ID, x, y, xSize, ySize) {

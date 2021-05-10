@@ -1,6 +1,6 @@
-class Tower{
+class Tower {
 
-    constructor(screenWidth, screenHeight, towerID, towerX, towerY, towerLevel){
+    constructor(screenWidth, screenHeight, towerID, towerX, towerY, towerLevel) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.towerID = towerID;
@@ -32,12 +32,26 @@ class Tower{
         this.towerSizeY = towerSize * yMult;
     }
 
-    draw(ctx, interpolationPercentage){
-        ctx.fillStyle ="#0FF8FF";
+    draw(ctx, interpolationPercentage) {
+        switch (this.towerID) {
+            case 1:
+                ctx.fillStyle = "#0FF8FF";
+                break;
+            case 2:
+                ctx.fillStyle = "#0F49FF";
+                break;
+            case 3:
+                ctx.fillStyle = "#A40FFF";
+                break;
+            case 4:
+                ctx.fillStyle = "#FF0FF4";
+                break;
+
+        }
         ctx.fillRect(this.towerX - (this.towerSizeX / 4), this.towerY - (this.towerSizeY / 4), this.towerSizeX, this.towerSizeY);
     }
 
-    update(){
+    update() {
 
         if (!this.constructComplete) {
             console.log("--Tower x: " + this.towerX + ", y: " + this.towerY + " Construct Complete");
