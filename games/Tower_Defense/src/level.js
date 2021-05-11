@@ -240,16 +240,17 @@ class Level {
         }
 
 
-        if (this.previewTower && this.leftMousePressed) { //if something is selected push new tower
+        if (this.previewTower && this.leftMousePressed) { 
             selectedID = this.previewTowerID;
-            this.towerArray.push(new Tower(this.screenWidth, this.screenHeight, selectedID, x * xSize, y * ySize, 1))
+            //Need check for enough currency
+            this.towerArray.push(new Tower(this.screenWidth, this.screenHeight, selectedID, x * xSize, y * ySize, 1, false, this.eventHandler))
             this.openBuildingMenu = false;
         }
 
     }
 
     drawTowerPreview(ctx, interpolationPercentage, ID, x, y, xSize, ySize) {
-        let tempTower = new Tower(this.screenWidth, this.screenHeight, ID, x * xSize, y * ySize, 1);
+        let tempTower = new Tower(this.screenWidth, this.screenHeight, ID, x * xSize, y * ySize, 1, this.previewTower, this.eventHandler);
         tempTower.draw(ctx, interpolationPercentage);
     }
 
