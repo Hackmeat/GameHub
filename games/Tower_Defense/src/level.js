@@ -65,9 +65,9 @@ class Level {
         this.buildingHoverX = -1;
         this.buildingHoverY = -1;
 
-        let margin = 30;
-        this.buildingTowerMarginX = margin * xMult;
-        this.buildingTowerMarginY = margin * yMult;
+        let marginTower = 30;
+        this.buildingTowerMarginX = marginTower * xMult;
+        this.buildingTowerMarginY = marginTower * yMult;
 
         this.buildingSelectionCancelColor = "#C60000"
         this.buildingSelectionColor = "#7A4FFF";
@@ -84,14 +84,44 @@ class Level {
         this.previewTowerID = 1;
         this.previewTowerX = 0;
         this.previewTowerY = 0;
+
+        //--------------------------------------------------------
+        //Start game
+        let marginStart = 20
+        this.start = false;
+        this.startHover = false;
+        this.startButtonX = this.screenWidth - (marginStart * xMult);
+        this.startButtonY = this.screenHeight - (marginStart * yMult);
+        this.startButtonSizeX = 100 * xMult;
+        this.startButtonSizeY = 50 * yMult;
+        this.startButtonColor = "#000000";
+        this.startButtonHover = "#5E5E5E";
     }
+
+
+    //--------------------------------------------------------
+    //Drawing all functions
 
     draw(ctx, interpolationPercentage) {
         this.drawMap(ctx, interpolationPercentage, this.levelOne);
         if (this.towerArray.length != 0) {
             this.drawTower(ctx, interpolationPercentage, this.towerArray);
         }
+        if (this.openBuildingMenu) {
+            this.drawBuildingMenu(ctx, this.buildingHoverX, this.buildingHoverY, this.buildingTowerMarginX, this.buildingTowerMarginY,
+                this.buildingTypAmount, this.buildingSelectionColor, this.buildingSelectionSizeX, this.buildingSelectionSizeY);
+            if (this.previewTower) {
+                this.drawTowerPreview(ctx, interpolationPercentage, this.previewTowerID, this.previewTowerX, this.previewTowerY, this.levelSizeX, this.levelSizeY);
+            }
+        }
+        if (!this.start) {
+            this.drawStartButton(ctx, this.startButtonX, this.startButtonY, this.startButtonSizeX, this.startButtonSizeY, this.startButtonColor, this.startButtonHover, this.startHover);
+        }
     }
+
+
+    //----------------------------------------------------------------
+    //Updating all
 
     update(delta) {
         this.xMouse = this.eventHandler.xMouse;
@@ -109,6 +139,9 @@ class Level {
         if (this.towerArray.length != 0) {
             this.updateTower(delta, this.towerArray);
         }
+        if (!this.start) {
+            this.updateStartButton(this.startButtonX, this.startButtonY, this.startButtonSizeX, this.startButtonSizeY, this.xMouse, this.yMouse, this.leftMousePressed);
+        }
     }
 
     //---------------------------------------------------------------------
@@ -118,14 +151,6 @@ class Level {
         for (let i = 0; i < array.length; i++) {
             for (let j = 0; j < array[0].length; j++) {
                 this.drawMapElement(ctx, j, i, this.levelSizeX, this.levelSizeY, array[i][j]);
-            }
-        }
-
-        if (this.openBuildingMenu) {
-            this.drawBuildingMenu(ctx, this.buildingHoverX, this.buildingHoverY, this.buildingTowerMarginX, this.buildingTowerMarginY,
-                this.buildingTypAmount, this.buildingSelectionColor, this.buildingSelectionSizeX, this.buildingSelectionSizeY);
-            if (this.previewTower) {
-                this.drawTowerPreview(ctx, interpolationPercentage, this.previewTowerID, this.previewTowerX, this.previewTowerY, this.levelSizeX, this.levelSizeY);
             }
         }
     }
@@ -240,7 +265,7 @@ class Level {
         }
 
 
-        if (this.previewTower && this.leftMousePressed) { 
+        if (this.previewTower && this.leftMousePressed) {
             selectedID = this.previewTowerID;
             //Need check for enough currency
             this.towerArray.push(new Tower(this.screenWidth, this.screenHeight, selectedID, x * xSize, y * ySize, 1, false, this.eventHandler))
@@ -266,6 +291,33 @@ class Level {
     updateTower(delta, array) {
         for (let i = 0; i < array.length; i++) {
             this.towerArray[i].update(delta);
+            if (this.openBuildingMenu && this.towerArray[i].hover) {
+                this.towerArray[i].hover = false;
+            }
+        }
+    }
+
+    //---------------------------------------------------------
+    //Start button, to start wave of monsters
+
+    drawStartButton(ctx, x, y, xSize, ySize, color, hoverColor, hoverBoolean) {
+
+        if (hoverBoolean) {
+            ctx.strokeStyle = hoverColor;
+        } else {
+            ctx.strokeStyle = color;
+        }
+        ctx.strokeRect(x - xSize, y - ySize, xSize, ySize)
+    }
+
+    updateStartButton(x, y, xSize, ySize, xMouse, yMouse, leftClick) {
+        this.startHover = false;
+        if (xMouse > x - xSize && xMouse < x && yMouse > y - ySize && yMouse < y){
+            this.startHover = true;
+            if(leftClick){
+                this.start = true;
+                console.log("--Round 1 starting")
+            }
         }
     }
 }

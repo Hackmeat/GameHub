@@ -1,4 +1,5 @@
 /*
+ * Main Lopp was not created by Author Hackmeat, but all other classes did
  * A main loop useful for games and other animated applications.
  */
 (function(root) {

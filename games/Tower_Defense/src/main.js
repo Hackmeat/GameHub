@@ -27,6 +27,9 @@ function update(delta) {
     }
 }
 
+//All color settings need to be changed to images, objects with diffrent hover 
+//style need diffrent pictures
+
 function draw(interpolationPercentage) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (!menu.start && !menu.selection && !menu.exit) {
