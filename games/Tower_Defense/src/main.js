@@ -19,7 +19,7 @@ function update(delta) {
     }
 
     if(mapSelection.levelRunning && !initLevel){
-        level = new Level(width, height, eventHandler, mapSelection.startLevel);
+        level = new Level(width, height, eventHandler, mapSelection.startLevel, mapSelection.difficulty);
         initLevel = true;
     }
     if(mapSelection.levelRunning && initLevel){

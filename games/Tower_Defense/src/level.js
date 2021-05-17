@@ -1,10 +1,11 @@
 class Level {
 
-    constructor(width, height, eventHandler, level) {
+    constructor(width, height, eventHandler, level, difficulty) {
         this.screenWidth = width;
         this.screenHeight = height;
         this.eventHandler = eventHandler;
         this.level = level;
+        this.difficulty = difficulty;
 
         //--------------------------------------------------------- 
         //For calculating the right positions for every screen size
@@ -128,7 +129,7 @@ class Level {
         this.yMouse = this.eventHandler.yMouse;
         this.leftMousePressed = this.eventHandler.leftMousePressed;
         if (!this.constructComplete) {
-            console.log("--Level " + this.level + " Construct Complete");
+            console.log("--Level " + this.level + ", Difficulty: " + this.difficulty + " Construct Complete");
             this.constructComplete = true;
         }
         this.updateTowerBulding(delta, this.levelOne, this.levelSizeX, this.levelSizeY, this.xMouse, this.yMouse)
@@ -319,5 +320,12 @@ class Level {
                 console.log("--Round 1 starting")
             }
         }
+    }
+
+    //---------------------------------------------------------
+    //
+    
+    manageMobs(currentRound){
+
     }
 }
