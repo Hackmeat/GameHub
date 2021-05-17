@@ -23,10 +23,19 @@ class Level {
             }
         */
 
+        //---------------------------------------------------------
+        //Mob management
+        this.mobsArray = [];
+
+        let size = 40;
         //---------------------------------------------------------------
         //Map based on 2D Array 32x18
-        this.levelOne = [
+        //and Level 1 Options
 
+        this.oneRound = 8;
+        this.oneStartX = 0 * (size * xMult) ;
+        this.oneStartY = 8 * (size * yMult) + size * yMult / 2; 
+        this.levelOne = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //00
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //01
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //02
@@ -35,7 +44,7 @@ class Level {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //05
             [0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //06
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //07
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //08
+            [9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //08
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //09
             [0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //10
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //11
@@ -49,9 +58,16 @@ class Level {
         this.elementGrass = 0;
         this.elementWalkWay = 1;
         this.elementBuildingSpot = 2;
+        this.startPoint = 9;
+
+        //--------------------------------------------------------
+        //Current round stats and arrays
+        this.currentRoundAmount = -1;
+        this.currentMap;
+        this.newMapInit = true;
 
 
-        let size = 40;
+        
         this.levelSizeX = size * xMult;
         this.levelSizeY = size * yMult;
         this.levelGrass = "#68FF33";
@@ -97,6 +113,11 @@ class Level {
         this.startButtonSizeY = 50 * yMult;
         this.startButtonColor = "#000000";
         this.startButtonHover = "#5E5E5E";
+
+        //--------------------------------------------------------
+        //Wave management
+        this.waves
+        this.waveInit = false;
     }
 
 
@@ -104,7 +125,8 @@ class Level {
     //Drawing all functions
 
     draw(ctx, interpolationPercentage) {
-        this.drawMap(ctx, interpolationPercentage, this.levelOne);
+
+        this.drawMap(ctx, interpolationPercentage, this.currentMap);
         if (this.towerArray.length != 0) {
             this.drawTower(ctx, interpolationPercentage, this.towerArray);
         }
@@ -118,6 +140,9 @@ class Level {
         if (!this.start) {
             this.drawStartButton(ctx, this.startButtonX, this.startButtonY, this.startButtonSizeX, this.startButtonSizeY, this.startButtonColor, this.startButtonHover, this.startHover);
         }
+        if(this.start && this.waveInit){
+            this.drawMobs(ctx, interpolationPercentage, this.waves.currentWave)
+        }
     }
 
 
@@ -125,6 +150,9 @@ class Level {
     //Updating all
 
     update(delta) {
+        if(this.newMapInit){
+            this.updateCurrentSettings();
+        }
         this.xMouse = this.eventHandler.xMouse;
         this.yMouse = this.eventHandler.yMouse;
         this.leftMousePressed = this.eventHandler.leftMousePressed;
@@ -132,7 +160,7 @@ class Level {
             console.log("--Level " + this.level + ", Difficulty: " + this.difficulty + " Construct Complete");
             this.constructComplete = true;
         }
-        this.updateTowerBulding(delta, this.levelOne, this.levelSizeX, this.levelSizeY, this.xMouse, this.yMouse)
+        this.updateTowerBulding(delta, this.currentMap, this.levelSizeX, this.levelSizeY, this.xMouse, this.yMouse)
         if (this.openBuildingMenu) {
             this.updateBuildingMenu(delta, this.buildingHoverX, this.buildingHoverY, this.buildingTowerMarginX, this.buildingTowerMarginY,
                 this.buildingTypAmount, this.buildingSelectionSizeX, this.buildingSelectionSizeY, this.xMouse, this.yMouse);
@@ -143,10 +171,24 @@ class Level {
         if (!this.start) {
             this.updateStartButton(this.startButtonX, this.startButtonY, this.startButtonSizeX, this.startButtonSizeY, this.xMouse, this.yMouse, this.leftMousePressed);
         }
+        if(this.start){
+            this.manageWaves(delta);
+            if(this.waveInit){
+                this.updateMobs(delta, this.waves.currentWave)
+            }
+        }
     }
 
     //---------------------------------------------------------------------
-    //Drawing the current map
+    //Drawing the current map and init current arrays
+
+    updateCurrentSettings(){
+        switch(this.level){
+            case 1:
+                this.currentRoundAmount = this.oneRound;
+                this.currentMap = this.levelOne;
+        }
+    }
 
     drawMap(ctx, interpolationPercentage, array) {
         for (let i = 0; i < array.length; i++) {
@@ -170,6 +212,9 @@ class Level {
                 } else {
                     ctx.fillStyle = this.levelBuildingSpot
                 }
+                break;
+            case this.startPoint:
+                ctx.fillStyle = this.levelWalkWay;
                 break;
         }
 
@@ -323,9 +368,26 @@ class Level {
     }
 
     //---------------------------------------------------------
-    //
-    
-    manageMobs(currentRound){
+    //Wave management
 
+    manageWaves(delta){
+        if(!this.waveInit){
+            this.waves = new Waves(this.screenWidth, this.screenHeight, this.currentRoundAmount, this.level, this.difficulty, this.oneStartX, this.oneStartY);
+            this.waves.update(delta);
+            console.log("--Wave init Complete");
+            this.waveInit = true;
+        }
+    }
+
+    updateMobs(delta, array){
+        for(let i = 0; i < array.length; i++){
+            array[i].update(delta);
+        }
+    }
+
+    drawMobs(ctx, interpolationPercentage, array){
+        for(let i = 0; i < array.length; i++){
+            array[i].draw(ctx, interpolationPercentage);
+        }
     }
 }
