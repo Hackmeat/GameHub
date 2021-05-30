@@ -39,7 +39,7 @@ class Mobs {
         //--------------------------------------------------------
         //Mob values
 
-        let size = 30;
+        size = 30;
         let margin = 5;
 
         this.speedOneX = 0;
