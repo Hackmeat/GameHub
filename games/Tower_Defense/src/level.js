@@ -65,8 +65,6 @@ class Level {
         this.currentRoundAmount = -1;
         this.currentMap;
         this.newMapInit = true;
-
-
         
         this.levelSizeX = size * xMult;
         this.levelSizeY = size * yMult;

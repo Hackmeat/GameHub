@@ -1,6 +1,6 @@
 class Waves{
 
-    constructor(screenWidth, screenHeight, waves, level, difficulty, startX, startY){
+    constructor(screenWidth, screenHeight, waves, level, difficulty, startX, startY, mapArray){
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
         this.level = level;
@@ -8,6 +8,7 @@ class Waves{
         this.waves = waves;
         this.startX = startX;
         this.startY = startY;
+        this.mapArray = mapArray;
 
         //--------------------------------------------------------- 
         //For calculating the right positions for every screen size
@@ -26,7 +27,7 @@ class Waves{
     }
 
     fillWave(){
-        for(let i = 0; i < 2; i++){
+        for(let i = 0; i < 1; i++){
             this.currentWave.push(new Mobs(this.screenWidth, this.screenHeight, this.level, this.difficulty, this.waves, this.startX, this.startY));
         }
     }
