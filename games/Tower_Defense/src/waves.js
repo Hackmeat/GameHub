@@ -28,7 +28,7 @@ class Waves{
 
     fillWave(){
         for(let i = 0; i < 1; i++){
-            this.currentWave.push(new Mobs(this.screenWidth, this.screenHeight, this.level, this.difficulty, this.waves, this.startX, this.startY));
+            this.currentWave.push(new Mobs(this.screenWidth, this.screenHeight, this.level, this.difficulty, this.waves, this.startX, this.startY, this.mapArray));
         }
     }
 

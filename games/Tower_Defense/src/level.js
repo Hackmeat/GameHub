@@ -34,7 +34,7 @@ class Level {
 
         this.oneRound = 8;
         this.oneStartX = 0 * (size * xMult) ;
-        this.oneStartY = 8 * (size * yMult) + size * yMult / 2; 
+        this.oneStartY = 8 * (size * yMult) ; 
         this.levelOne = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //00
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], //01
@@ -370,7 +370,7 @@ class Level {
 
     manageWaves(delta){
         if(!this.waveInit){
-            this.waves = new Waves(this.screenWidth, this.screenHeight, this.currentRoundAmount, this.level, this.difficulty, this.oneStartX, this.oneStartY);
+            this.waves = new Waves(this.screenWidth, this.screenHeight, this.currentRoundAmount, this.level, this.difficulty, this.oneStartX, this.oneStartY, this.currentMap);
             this.waves.update(delta);
             console.log("--Wave init Complete");
             this.waveInit = true;

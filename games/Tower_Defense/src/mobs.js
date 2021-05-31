@@ -1,6 +1,6 @@
 class Mobs {
 
-    constructor(screenWidth, screenHeight, level, difficulty, waves, startX, startY) {
+    constructor(screenWidth, screenHeight, level, difficulty, waves, startX, startY, mapArray) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.level = level;
@@ -8,7 +8,7 @@ class Mobs {
         this.waves = waves;
         this.xPos = startX;
         this.yPos = startY;
-        //this.mapArray = mapArray;
+        this.mapArray = mapArray;
 
         //--------------------------------------------------------- 
         //For calculating the right positions for every screen size
@@ -42,8 +42,8 @@ class Mobs {
         size = 30;
         let margin = 5;
 
-        this.speedOneX = 0;
-        this.speedOneY = 0;
+        this.speedOneX = 1 * xMult;
+        this.speedOneY = 1 * yMult;
         this.healthOne = 100 * this.difficulty;
         this.sizeOneX = size * xMult;
         this.sizeOneY = size * yMult;
@@ -51,6 +51,8 @@ class Mobs {
         this.marginOneY = margin * yMult;
 
         this.moveDirection = "right";
+        this.moveAmountX = Math.floor(this.xPos/ this.levelSizeX);
+        this.moveAmountY = Math.floor(this.yPos / this.levelSizeY);
 
 
         this.initComplete = false;
@@ -58,7 +60,7 @@ class Mobs {
 
     draw(ctx, interpolationPercentage) {
         ctx.fillStyle = "#000000";
-        ctx.fillRect(this.xPos, this.yPos - this.sizeOneY / 2, this.sizeOneX, this.sizeOneY)
+        ctx.fillRect(this.xPos, this.yPos + this.marginOneY , this.sizeOneX, this.sizeOneY)
     }
 
     update(delta) {
@@ -66,20 +68,56 @@ class Mobs {
             console.log("--Mob created")
             this.initComplete = true;
         }
+        this.movement(delta)
+        
     }
-/*
-    movement(delta, mapArray) {
+
+    movement(delta) {
         let temp = 0;
             switch (this.moveDirection) {
-                case "right":
-                    if (Number.isInteger(this.xPos / this.levelSizeX)){
-                        temp = this.getArrayX(this.xPos / this.levelSizeX, this.yPos / this.levelSizeY);
+                case "right":   
+                this.xPos += this.speedOneX;                     
+                    if (this.moveAmountX < Math.floor(((this.xPos + this.marginOneX + this.sizeOneX) / this.levelSizeX))){
+                        temp = this.getArray(Math.floor(((this.xPos + this.marginOneX + this.sizeOneX) / this.levelSizeX)), Math.floor((this.yPos / this.levelSizeY)));                    
+                        this.moveAmountX = Math.floor(((this.xPos + this.marginOneX + this.sizeOneX) / this.levelSizeX));                      
+                        if(temp != this.elementWalkWay){
+                            //Checking above
+                            if(this.getArray(Math.floor(((this.xPos + this.marginOneX + this.sizeOneX) / this.levelSizeX)), Math.floor(((this.yPos - this.levelSizeY) / this.levelSizeY ))) == this.elementWalkWay){
+                                this.moveDirection = "up";  
+                                console.log("Up");                              
+                            }
+                            //Checking below
+                            if(this.getArray(Math.floor(((this.xPos + this.marginOneX + this.sizeOneX) / this.levelSizeX)), Math.floor(((this.yPos + this.levelSizeY) / this.levelSizeY ))) == this.elementWalkWay){
+                                this.moveDirection = "down";  
+                                console.log("Down");                              
+                            }
+                            
+                        }
                     }
-
+                    
+                    break;
+                case "down":
+                    this.yPos += this.speedOneY;
+                    if (this.moveAmountY < Math.floor(((this.yPos + (this.marginOneY * 2) + this.sizeOneY) / this.levelSizeY))){
+                        temp = this.getArray(Math.floor((this.xPos / this.levelSizeX)), Math.floor(((this.yPos + this.marginOneY + this.sizeOneY) / this.levelSizeY)));                    
+                        this.moveAmountY = Math.floor(((this.yPos + this.marginOneY + this.sizeOneY) / this.levelSizeY));
+                        if(temp != this.elementWalkWay){
+                            //Checking right
+                            console.log("x:" + Math.floor(((this.xPos + this.levelSizeX) / this.levelSizeX)) +  ", y: " + Math.floor(((this.yPos) / this.levelSizeY)))
+                            console.log("ArrayValue: " + this.getArray(Math.floor(((this.xPos + this.levelSizeX) / this.levelSizeX)), Math.floor(((this.yPos) / this.levelSizeY))))
+                            if(this.getArray(Math.floor(((this.xPos + this.levelSizeX) / this.levelSizeX)), Math.floor((this.yPos  / this.levelSizeY)))){
+                                //this.yPos = this.yPos - this.marginOneY
+                                this.moveDirection = "right";
+                                console.log("Right");
+                            }
+                        }
+                    }
+                    
+                    break;
             }
     }
 
-    getArrayX(x){
-
-    }*/
+    getArray(x, y){
+        return this.mapArray[y][x];
+    }
 }
