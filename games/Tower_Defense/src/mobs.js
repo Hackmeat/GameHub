@@ -98,7 +98,7 @@ class Mobs {
                     break;
                 case "down":
                     this.yPos += this.speedOneY;
-                    if (this.moveAmountY < Math.floor(((this.yPos + (this.marginOneY * 2) + this.sizeOneY) / this.levelSizeY))){
+                    if (this.moveAmountY < Math.floor(((this.yPos + this.marginOneY + this.sizeOneY) / this.levelSizeY))){
                         temp = this.getArray(Math.floor((this.xPos / this.levelSizeX)), Math.floor(((this.yPos + this.marginOneY + this.sizeOneY) / this.levelSizeY)));                    
                         this.moveAmountY = Math.floor(((this.yPos + this.marginOneY + this.sizeOneY) / this.levelSizeY));
                         if(temp != this.elementWalkWay){
