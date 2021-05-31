@@ -4,6 +4,8 @@ let ctx = canvas.getContext("2d");
 const width = canvas.width;
 const height = canvas.height;
 
+let fpsCounter = document.getElementById("fpsCounter")
+
 let initLevel = false;
 
 let eventHandler = new EventHandler();
@@ -44,7 +46,7 @@ function draw(interpolationPercentage) {
 }
 
 function end(fps, panic) {
-    //fpsCounter.textContent = Math.round(fps) + ' FPS';
+    fpsCounter.textContent = Math.round(fps) + ' FPS';
     if (panic) {
         var discardedTime = Math.round(MainLoop.resetFrameDelta());
         console.warn('Main loop panicked, probably because the browser tab was put in the background. Discarding ' + discardedTime + 'ms');

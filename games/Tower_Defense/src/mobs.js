@@ -85,8 +85,8 @@ class Mobs {
         //for moving forward. 
         //If so nothing happens, else the mob checks if he can then change his moving direction .
         //
-        //In the up case i remove one Tick of movement, otherwise the margin would not fit, why that happens will
-        //be investigatet later
+        //In the up case i remove one Tick of movement, otherwise the margin would not fit, why that
+        //happens will be investigatet later
     
         switch (this.moveDirection) {
             case "right":
@@ -112,6 +112,7 @@ class Mobs {
                 break;
 
             case "down":
+                
                 this.yPos += this.speedOneY;
                 if (this.moveAmountY < Math.floor(((this.yPos + (this.marginOneY * 2) + this.sizeOneY) / this.levelSizeY))) {
                     temp = this.getArray(Math.floor((this.xPos / this.levelSizeX)), Math.floor(((this.yPos + this.sizeOneY + (this.marginOneY * 2)) / this.levelSizeY)));
@@ -148,7 +149,7 @@ class Mobs {
 
                         }
                         //Checking left
-                        if (this.getArray(Math.floor(((this.xPos - this.levelSizeX) / this.levelSizeX)), Math.floor((this.yPos / this.levelSizeY))) == this.elementWalkWay) {
+                        if (this.getArray(Math.floor(((this.xPos - this.levelSizeX) / this.levelSizeX)), Math.ceil((this.yPos / this.levelSizeY))) == this.elementWalkWay) {
                             this.moveDirection = "left";
                             console.log("Left");
                             this.yPos += this.speedOneY;
@@ -160,6 +161,25 @@ class Mobs {
 
             case "left":
                 this.xPos -= this.speedOneX;
+                if (this.moveAmountX > Math.floor(((this.xPos - this.marginOneX) / this.levelSizeX))) {
+                    temp = this.getArray(Math.floor(((this.xPos - this.marginOneX) / this.levelSizeX)), Math.floor((this.yPos / this.levelSizeY)));
+                    this.moveAmountX = Math.floor(((this.xPos - this.marginOneX) / this.levelSizeX));
+                    if (temp != this.elementWalkWay) {
+                        //Checking above
+                        console.log("yeet")
+                        if (this.getArray(Math.floor((this.xPos / this.levelSizeX)), Math.floor(((this.yPos - this.levelSizeY) / this.levelSizeY))) == this.elementWalkWay) {
+                            this.moveDirection = "up";
+                            console.log("Up");
+                            break;
+                        }
+                        //Checking below
+                        if (this.getArray(Math.floor((this.xPos / this.levelSizeX)), Math.floor(((this.yPos + this.levelSizeY) / this.levelSizeY))) == this.elementWalkWay) {
+                            this.moveDirection = "down";
+                            console.log("Down");
+                            break;
+                        }
+                    }
+                }
                 break;
         }
     }
