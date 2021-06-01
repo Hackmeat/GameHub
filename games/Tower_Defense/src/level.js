@@ -410,4 +410,6 @@ class Level {
             array[i].draw(ctx, interpolationPercentage);
         }
     }
+
+    //Test
 }
